@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.map-container {
+  zoom: .35;
+  margin: auto;
+}
+
+@media screen and (min-width: 1024px) {
+  .map-container {
+    zoom: 1.25;
+    margin: 0;
+  }
+}
