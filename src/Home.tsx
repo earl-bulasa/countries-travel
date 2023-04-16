@@ -126,7 +126,7 @@ const Home: React.FC = () => {
       selectedCountries.forEach(
         (country) => (countriesParams += `${country.id}-${country.value},`)
       );
-      navigate(`/countries-traveled?countries=${countriesParams}`);
+      navigate(`/countries-traveled?countries=${countriesParams?.slice(0, -1)}`);
     } else {
       let elem = window.document.createElement("a");
       elem.href = blob;

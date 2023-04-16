@@ -13,11 +13,19 @@ const CountriesTraveled: React.FC = () => {
   );
 
   useEffect(() => {
+    console.log('asd')
     const search = location.search;
     const countriesString = new URLSearchParams(search).get("countries");
     // countriesString?.slice(0, -1);
-    const countries = countriesString?.slice(0, -1).split(",").map((country) => {
-      const data = country.split("-");
+    let countriesSplit = countriesString?.split(",");
+    // console.log(countriesSplit);
+    if(countriesSplit?.length === 1) {
+      countriesSplit = countriesString?.split("%2C");
+    }
+
+    
+    const countries = countriesSplit?.map((country) => {
+      let data = country.split("-");
       return { id: data[0], value: Number(data[1]) } as SelectedCountry;
     });
     setSelectedCountries([...countries!]);
