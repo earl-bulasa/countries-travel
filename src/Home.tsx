@@ -157,7 +157,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="App flex flex-col gap-y-3 py-3">
+    <div className="App flex flex-col gap-y-3 pt-3">
       <Search handleSelectSearchCountry={handleSelectSearchCountry} />
 
       {showMenu && (
@@ -191,7 +191,7 @@ const Home: React.FC = () => {
           ? "Download Image"
           : "Go to Image Page"}
       </button>
-      <footer className="flex justify-between px-10 items-end">
+      <footer className="flex justify-between px-2 lg:px-10 items-center bg-[#B0B1B6] text-white">
         <div>Developed by Earl John Lester Bulasa</div>
         <div>
           <p>Inspired By:</p>

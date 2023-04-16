@@ -27,19 +27,16 @@ const Map: React.FC<MapProps> = ({
 }) => {
   const renderPath = (country: Country) => {
     let fill: string | undefined = undefined;
-    // console.log(selectedCountries)
     if (selectedCountries) {
       const selCountry = selectedCountries.find(
         (selectedCountry) => selectedCountry.id === country.id
       );
-      // console.log(selCountry);
       if (selCountry) {
         fill = LEVELS.find(
           (level) => level.value === selCountry.value
         )?.color;
       }
     }
-    console.log(fill);
     return (
       <path
         ref={(e) => {
