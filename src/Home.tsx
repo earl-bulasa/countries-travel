@@ -14,6 +14,9 @@ const BROWSER_LIST = ["Chrome", "Firefox", "Opera", "Edge", "Safari"];
 const Home: React.FC = () => {
   const countryRefs = useRef<SVGPathElement[]>([]);
   const printRef = useRef<HTMLDivElement>(null);
+  const [selectedCountries, setSelectedCountries] = useState<SelectedCountry[]>(
+    []
+  );
 
   const [selectedCountryPath, setSelectedCountryPath] = useState<
     EventTarget & SVGPathElement
@@ -26,7 +29,7 @@ const Home: React.FC = () => {
   const [tooltipPosition, setTooltipPosition] = useState<Position>(
     {} as Position
   );
-  const [total, setTotal] = useState(0);
+  // const [total, setTotal] = useState(0);
 
   const navigate = useNavigate();
 
@@ -92,10 +95,21 @@ const Home: React.FC = () => {
 
   const handleMenuSelect = (value: number, color: string) => {
     selectedCountryPath?.setAttribute("fill", color);
-    const diff = value - Number(selectedCountryPath!.ariaLevel);
-    setTotal(total + diff);
+    const newSelectedCountries = [...selectedCountries].filter(
+      (country) => country.id !== selectedCountryPath?.id!
+    );
+    if (value > 0) {
+      newSelectedCountries.push({ id: selectedCountryPath?.id!, value: value });
+    }
+    setSelectedCountries(newSelectedCountries);
     selectedCountryPath!.ariaLevel = value.toString();
     setShowMenu(false);
+  };
+
+  const getTotal = (): number => {
+    let total = 0;
+    selectedCountries.forEach((country) => (total += country.value));
+    return total;
   };
 
   const handleSelectSearchCountry = (id: string) => {
@@ -104,10 +118,12 @@ const Home: React.FC = () => {
   };
 
   const saveAs = (blob: string, fileName: string) => {
-    if (!BROWSER_LIST.includes(browserName)) {
+    if (BROWSER_LIST.includes(browserName)) {
       // setImageFile(blob);
-      localStorage.setItem('imageFile', blob);
-      navigate(`/countries-traveled`);
+      // localStorage.setItem("imageFile", blob);
+      let countriesParams = '';
+      selectedCountries.forEach(country => countriesParams+=`${country.id}-${country.value},`);
+      navigate(`/countries-traveled?countries=${countriesParams}`);
     } else {
       let elem = window.document.createElement("a");
       elem.href = blob;
@@ -177,7 +193,7 @@ const Home: React.FC = () => {
           handleCountryMouseLeave={handleCountryMouseLeave}
           addToCountryRefs={addToCountryRefs}
         />
-        <WorldLevel total={total} />
+        <WorldLevel total={getTotal()} />
       </div>
       <button
         onClick={handleDownloadImage}
