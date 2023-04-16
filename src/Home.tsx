@@ -121,8 +121,10 @@ const Home: React.FC = () => {
     if (BROWSER_LIST.includes(browserName)) {
       // setImageFile(blob);
       // localStorage.setItem("imageFile", blob);
-      let countriesParams = '';
-      selectedCountries.forEach(country => countriesParams+=`${country.id}-${country.value},`);
+      let countriesParams = "";
+      selectedCountries.forEach(
+        (country) => (countriesParams += `${country.id}-${country.value},`)
+      );
       navigate(`/countries-traveled?countries=${countriesParams}`);
     } else {
       let elem = window.document.createElement("a");
@@ -153,20 +155,6 @@ const Home: React.FC = () => {
       saveAs(dataUrl, "countries.png");
     });
   };
-
-  // const handleDownloadImage = useCallback(() => {
-  //   toPng(printRef.current!, { cacheBust: true, })
-  //     .then((dataUrl) => {
-  //       const link = document.createElement('a')
-  //       // link.download = 'countries.png'
-  //       console.log(dataUrl)
-  //       link.href = dataUrl
-  //       link.click()
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // }, [printRef]);
 
   return (
     <div className="App flex flex-col gap-y-3 py-3">
@@ -203,6 +191,20 @@ const Home: React.FC = () => {
           ? "Download Image"
           : "Go to Image Page"}
       </button>
+      <footer className="flex justify-between px-10 items-end">
+        <div>Developed by Earl John Lester Bulasa</div>
+        <div>
+          <p>Inspired By:</p>
+          <p>
+            <a href="https://my-philippines-travel-level.com/map">
+              My Philippines Travel Level
+            </a>
+          </p>
+          <p>
+            <a href="https://zhung.com.tw/japanex/">JapanEX</a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
