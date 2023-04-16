@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Map from "./Map";
 import WorldLevel from "./WorldLevel";
 import { useLocation } from "react-router-dom";
+import SelectedCountry from "./interfaces/SelectedCountry";
 
 const CountriesTraveled: React.FC = () => {
   const location = useLocation();

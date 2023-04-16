@@ -3,6 +3,7 @@ import COUNTRIES from "./data/Countries";
 import Tooltip from "./ToolTip";
 import LEVELS from "./data/Levels";
 import Country from "./interfaces/Country";
+import SelectedCountry from "./interfaces/SelectedCountry";
 
 interface MapProps {
   selectedCountries?: SelectedCountry[];

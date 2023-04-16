@@ -8,6 +8,7 @@ import Search from "./Search";
 import { toPng } from "html-to-image";
 import { useNavigate } from "react-router-dom";
 import { browserName } from "react-device-detect";
+import SelectedCountry from "./interfaces/SelectedCountry";
 
 const BROWSER_LIST = ["Chrome", "Firefox", "Opera", "Edge", "Safari"];
 
@@ -118,7 +119,7 @@ const Home: React.FC = () => {
   };
 
   const saveAs = (blob: string, fileName: string) => {
-    if (BROWSER_LIST.includes(browserName)) {
+    if (!BROWSER_LIST.includes(browserName)) {
       // setImageFile(blob);
       // localStorage.setItem("imageFile", blob);
       let countriesParams = "";
