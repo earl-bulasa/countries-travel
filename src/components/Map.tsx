@@ -1,12 +1,19 @@
-import { useState } from "react";
-import COUNTRIES from "./data/Countries";
+import { useEffect, useRef, useState } from "react";
+// import COUNTRIES from "../data/Countries";
+import COUNTRIES_CONTINENT from "../data/CountriesContinents";
 import Tooltip from "./ToolTip";
-import LEVELS from "./data/Levels";
-import Country from "./interfaces/Country";
-import SelectedCountry from "./interfaces/SelectedCountry";
+import LEVELS from "../data/Levels";
+import Country from "../interfaces/Country";
+import SelectedCountry from "../interfaces/SelectedCountry";
+import CountryDouble from "../interfaces/CountryContinent";
 
 interface MapProps {
+  countries: Country[];
   selectedCountries?: SelectedCountry[];
+  height: number;
+  width: number;
+  name: string;
+  viewBox?: string;
   handleCountryClick?: (
     e: React.MouseEvent<SVGPathElement, MouseEvent>
   ) => void;
@@ -25,6 +32,11 @@ const Map: React.FC<MapProps> = ({
   handleCountryMouseLeave,
   handleCountryMouseHover,
   addToCountryRefs,
+  countries,
+  height,
+  width,
+  name,
+  viewBox
 }) => {
   const renderPath = (country: Country) => {
     let fill: string | undefined = undefined;
@@ -60,16 +72,18 @@ const Map: React.FC<MapProps> = ({
     );
   };
   return (
-    <div className="map-container">
+    <div className={`map-container ${name} m-0`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="1009.6727"
-        height="665.96301"
+        width={width}
+        height={height}
         fill="white"
         stroke="black"
         strokeWidth=".2"
+        viewBox={viewBox || ''}
       >
-        {COUNTRIES.map((country) => renderPath(country))}
+        {/* {COUNTRIES_CONTINENT.filter(country => country.continent === 'SA').map((country) => renderPath(country))} */}
+        {countries.map((country) => renderPath(country))}
       </svg>
     </div>
   );

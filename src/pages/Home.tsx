@@ -1,18 +1,37 @@
 import { useCallback, useRef, useState } from "react";
-import Map from "./Map";
-import Menu from "./Menu";
-import Tooltip from "./ToolTip";
-import Position from "./interfaces/Position";
-import WorldLevel from "./WorldLevel";
-import Search from "./Search";
+import Map from "../components/Map";
+import Menu from "../components/Menu";
+import Tooltip from "../components/ToolTip";
+import Position from "../interfaces/Position";
+import WorldLevel from "../components/WorldLevel";
+import Search from "../components/Search";
 import { toPng } from "html-to-image";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { browserName } from "react-device-detect";
-import SelectedCountry from "./interfaces/SelectedCountry";
+import SelectedCountry from "../interfaces/SelectedCountry";
+import Country from "../interfaces/Country";
+import NavMenu from "../components/NavMenu";
+import OutsideClickHandler from "react-outside-click-handler";
 
 const BROWSER_LIST = ["Chrome", "Firefox", "Opera", "Edge", "Safari"];
 
-const Home: React.FC = () => {
+interface HomeProps {
+  countries: Country[];
+  name: string;
+  height: number;
+  width: number;
+  viewBox?: string;
+}
+
+const Home: React.FC<HomeProps> = ({
+  countries,
+  name,
+  height,
+  width,
+  viewBox,
+}) => {
+  const [showNav, setShowNav] = useState(false);
+
   const countryRefs = useRef<SVGPathElement[]>([]);
   const printRef = useRef<HTMLDivElement>(null);
   const [selectedCountries, setSelectedCountries] = useState<SelectedCountry[]>(
@@ -126,7 +145,9 @@ const Home: React.FC = () => {
       selectedCountries.forEach(
         (country) => (countriesParams += `${country.id}-${country.value},`)
       );
-      navigate(`/countries-traveled?countries=${countriesParams?.slice(0, -1)}`);
+      navigate(
+        `/countries-traveled${location.pathname}?countries=${countriesParams?.slice(0, -1)}`
+      );
     } else {
       let elem = window.document.createElement("a");
       elem.href = blob;
@@ -159,21 +180,30 @@ const Home: React.FC = () => {
 
   return (
     <div className="App flex flex-col gap-y-3 pt-3">
-      <Search handleSelectSearchCountry={handleSelectSearchCountry} />
+      <OutsideClickHandler onOutsideClick={() => setShowNav(false)}>
+        <NavMenu showNav={showNav} setShowNav={setShowNav} />
+      </OutsideClickHandler>
+
+      <Search
+        countries={countries}
+        handleSelectSearchCountry={handleSelectSearchCountry}
+      />
 
       {showMenu && (
-        <Menu
-          country={selectedCountry}
-          position={menuPosition}
-          handleMenuSelect={handleMenuSelect}
-        />
+        <OutsideClickHandler onOutsideClick={() => setShowMenu(false)}>
+          <Menu
+            country={selectedCountry}
+            position={menuPosition}
+            handleMenuSelect={handleMenuSelect}
+          />
+        </OutsideClickHandler>
       )}
 
       {showTooltip && (
         <Tooltip country={tooltipCountry} position={tooltipPosition} />
       )}
       <div
-        className="flex flex-col-reverse lg:flex-row justify-center gap-x-3 gap-y-3 bg-white px-2"
+        className="overflow-x-hidden flex flex-col-reverse lg:flex-row justify-center gap-x-3 gap-y-3 bg-white px-2"
         ref={printRef}
       >
         <Map
@@ -181,8 +211,13 @@ const Home: React.FC = () => {
           handleCountryMouseHover={handleCountryMouseHover}
           handleCountryMouseLeave={handleCountryMouseLeave}
           addToCountryRefs={addToCountryRefs}
+          countries={countries}
+          height={height}
+          width={width}
+          name={name}
+          viewBox={viewBox}
         />
-        <WorldLevel total={getTotal()} />
+        <WorldLevel total={getTotal()} name={name} />
       </div>
       <button
         onClick={handleDownloadImage}

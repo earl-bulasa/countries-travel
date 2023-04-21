@@ -4,13 +4,27 @@
 
 
 .map-container {
-  zoom: .35;
+  zoom: .55;
   margin: auto;
+}
+
+.map-container.Africa {
+  zoom: .65;
+  margin: 0;
+}
+
+.map-container.World {
+  zoom: .35;
+}
+
+.map-container.Oceania {
+  zoom: .8;
 }
 
 @media screen and (min-width: 1024px) {
   .map-container {
-    zoom: 1.25;
-    margin: 0;
+    zoom: 1.25 !important;
+    margin: 0 !important;
   }
 }
+

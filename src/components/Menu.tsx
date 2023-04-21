@@ -1,5 +1,5 @@
-import LEVELS from "./data/Levels";
-import Position from "./interfaces/Position";
+import LEVELS from "../data/Levels";
+import Position from "../interfaces/Position";
 
 interface MenuProps {
   country: string;

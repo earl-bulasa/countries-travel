@@ -1,12 +1,13 @@
 import { useState } from "react";
-import COUNTRIES from "./data/Countries";
-import Country from "./interfaces/Country";
+import COUNTRIES from "../data/Countries";
+import Country from "../interfaces/Country";
 
 interface SearchProps {
+  countries: Country[];
   handleSelectSearchCountry: (id: string) => void;
 }
 
-const Search: React.FC<SearchProps> = ({handleSelectSearchCountry}) => {
+const Search: React.FC<SearchProps> = ({countries, handleSelectSearchCountry}) => {
   const [search, setSearch] = useState("");
   const [hasSelected, setHasSelected] = useState(false);
 
@@ -31,7 +32,7 @@ const Search: React.FC<SearchProps> = ({handleSelectSearchCountry}) => {
       {(search && !hasSelected) && (
         <div className="flex flex-col max-h-40 overflow-auto absolute bg-white p-2 rounded-md top-12 w-[72%] lg:w-52 shadow-lg">
           <ul className="list-none">
-            {COUNTRIES.filter(
+            {countries.filter(
               (country) =>
                 country.title.toLowerCase().includes(search.toLowerCase()) ||
                 country.id.toLowerCase().includes(search.toLowerCase())

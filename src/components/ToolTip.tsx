@@ -1,4 +1,4 @@
-import Position from "./interfaces/Position";
+import Position from "../interfaces/Position";
 
 interface TooltipProps {
   country: string;

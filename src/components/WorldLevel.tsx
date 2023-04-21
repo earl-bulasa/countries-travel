@@ -1,13 +1,14 @@
-import LEVELS from "./data/Levels";
+import LEVELS from "../data/Levels";
 
 interface WorldLevelProps {
   total: number;
+  name: string;
 }
 
-const WorldLevel: React.FC<WorldLevelProps> = ({ total }) => {
+const WorldLevel: React.FC<WorldLevelProps> = ({ total, name }) => {
   return (
     <div className="flex flex-col gap-y-2 mt-5">
-      <span>World Level {total} </span>
+      <span>{name} Level {total} </span>
       {LEVELS.map((level) => (
         <div className="flex gap-x-1" key={level.value}>
           <div
